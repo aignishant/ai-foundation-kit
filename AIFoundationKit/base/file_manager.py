@@ -111,7 +111,6 @@ class BaseFileManager(ABC):
                         "File name must be provided if file object does not have a name attribute."
                     )
 
-            # Handle full paths in file_name (just in case)
             file_name = os.path.basename(file_name)
             save_path = os.path.join(save_dir, file_name)
 
@@ -119,14 +118,8 @@ class BaseFileManager(ABC):
                 with open(save_path, "wb") as f:
                     f.write(file_obj)
             else:
-                # Assume it's a file-like object
                 with open(save_path, "wb") as f:
-                    # Check if the object has a read method
                     if hasattr(file_obj, "read"):
-                        # If it's a file-like object, we might need to reset position or just read
-                        # If it's bytesIO or opened file.
-                        # Some frameworks pass a wrapper.
-                        # Most reliably: read content
                         content = file_obj.read()
                         f.write(content)
                     else:

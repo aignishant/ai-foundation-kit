@@ -12,7 +12,6 @@ class ContextAdapter(logging.LoggerAdapter):
     """
 
     def process(self, msg: str, kwargs: Dict[str, Any]):
-        # Merge extra dict with existing extra if present
         extra = self.extra.copy()
         if "extra" in kwargs:
             extra.update(kwargs["extra"])

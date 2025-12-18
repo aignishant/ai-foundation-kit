@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from AIFoundationKit.base.exception.custom_exception import ModelException
 from AIFoundationKit.base.logger.custom_logger import logger as log
 
-# Load dotenv if not production
 if os.getenv("ENV", "local").lower() != "production":
     load_dotenv()
 
@@ -42,7 +41,6 @@ class ApiKeyManager:
         if check_keys:
             self.validate_keys()
 
-        # Log keys present (safely)
         log.info(
             "API Key Manager initialized",
             extra={"keys_loaded": list(self.api_keys.keys())},

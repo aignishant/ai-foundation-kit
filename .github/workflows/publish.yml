@@ -38,8 +38,6 @@ jobs:
 
       - name: Lint with Pylint
         run: |
-          # Run pylint on the source package
-          # disabling docstring checks for now to pass initial validation if code is not fully documented
           pylint AIFoundationKit --disable=C0114,C0115,C0116
 
       - name: Run temporary tests

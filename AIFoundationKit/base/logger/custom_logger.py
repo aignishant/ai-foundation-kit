@@ -19,7 +19,6 @@ class JsonFormatter(logging.Formatter):
             "name": record.name,
             "message": record.getMessage(),
         }
-        # Include any extra fields added to the LogRecord (e.g., via LoggerAdapter)
         standard_attrs = {
             "name",
             "msg",
@@ -44,7 +43,6 @@ class JsonFormatter(logging.Formatter):
         }
         for key, value in record.__dict__.items():
             if key not in standard_attrs:
-                # If the key is 'extra' and contains a dict, merge its items
                 if key == "extra" and isinstance(value, dict):
                     for ek, ev in value.items():
                         log_record[ek] = ev
@@ -83,12 +81,10 @@ def get_logger(name: str = "app") -> logging.Logger:
     log_obj.setLevel(os.getenv("LOG_LEVEL", "INFO").upper())
     log_dir = os.getenv("LOG_DIR", "logs")
     os.makedirs(log_dir, exist_ok=True)
-    # Generate a unique log filename with timestamp
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     log_filename = f"app_{timestamp}.log"
     log_path = os.path.join(log_dir, log_filename)
 
-    # Use FileHandler to create a new file for each run/process
     file_handler = logging.FileHandler(log_path)
     file_handler.setFormatter(JsonFormatter())
     log_obj.addHandler(file_handler)
@@ -98,5 +94,4 @@ def get_logger(name: str = "app") -> logging.Logger:
     return log_obj
 
 
-# Export a module‑level logger for convenient imports
 logger = get_logger()

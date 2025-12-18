@@ -3,7 +3,6 @@ from typing import Any, Dict, Optional
 
 from dotenv import load_dotenv
 
-# Conditional imports
 try:
     from langchain_google_genai import (
         ChatGoogleGenerativeAI,
@@ -95,10 +94,8 @@ class ModelLoader:
         else:
             self.config = {}
 
-        # Provider Registry
         self._providers: Dict[str, BaseProvider] = {}
 
-        # Register default providers
         self.register_provider("google", GoogleProvider())
         self.register_provider("groq", GroqProvider())
 
@@ -121,15 +118,12 @@ Available: {list(self._providers.keys())}"
     def _resolve_provider_name(
         self, provider_arg: Optional[str], config_section: str
     ) -> str:
-        # 1. Explicit Argument
         if provider_arg:
             return provider_arg
 
-        # 2. Config Default
         if "default_provider" in self.config.get(config_section, {}):
             return self.config[config_section]["default_provider"]
 
-        # 3. Environment Variable (fallback)
         env_prov = os.getenv("LLM_PROVIDER")
         if env_prov:
             return env_prov
@@ -145,7 +139,6 @@ Available: {list(self._providers.keys())}"
 
         prov_instance = self._get_provider(provider_name)
 
-        # Get provider specific config
         provider_config = self.config.get("llm", {}).get(provider_name, {})
 
         try:
@@ -158,25 +151,15 @@ Available: {list(self._providers.keys())}"
         """
         Load Embeddings from the specified or configured provider.
         """
-        # Logic for embedding provider resolution might differ slightly or reuse same
-        # logic. Here we assume if not passed, we look at embedding_model config or
-        # default to google
 
         if not provider:
-            # check config for embedding specific provider key?
-            # Or just assume 'google' if not set in a specific 'embedding' block
             provider = "google"
             if "embedding_model" in self.config:
-                # If embedding_model has a 'provider' key, we could use it.
-                # Current config structure was {embedding_model: {model_name: ...}}
-                # Let's support an optional 'provider' key there too
                 provider = self.config["embedding_model"].get("provider", "google")
 
         log.info("Loading Embeddings using provider: %s", provider)
         prov_instance = self._get_provider(provider)
 
-        # Get provider specific config (generalized)
-        # We might pass the whole embedding block
         emb_config = self.config.get("embedding_model", {})
 
         try:
