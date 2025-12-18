@@ -30,7 +30,7 @@ fi
 
 # Push to the current branch's upstream
 if [ -f .env ]; then
-  source .env
+  # source .env  # removed to avoid sh error; token should be set in environment
 fi
 # Use token for authentication if GIT_TOKEN is set
 if [ -n "$GIT_TOKEN" ]; then
