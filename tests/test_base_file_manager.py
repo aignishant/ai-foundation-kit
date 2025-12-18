@@ -24,8 +24,9 @@ def test_read_file_not_found(file_manager):
 
 
 def test_read_file_txt(file_manager):
-    with patch("os.path.exists", return_value=True), \
-            patch("builtins.open", mock_open(read_data="content")):
+    with patch("os.path.exists", return_value=True), patch(
+        "builtins.open", mock_open(read_data="content")
+    ):
         assert file_manager.read_file("test.txt") == "content"
 
 
@@ -39,23 +40,24 @@ def test_read_file_unsupported(file_manager):
 def test_read_file_json(file_manager):
     data = {"key": "value"}
     json_str = json.dumps(data)
-    with patch("os.path.exists", return_value=True), \
-            patch("builtins.open", mock_open(read_data=json_str)):
+    with patch("os.path.exists", return_value=True), patch(
+        "builtins.open", mock_open(read_data=json_str)
+    ):
         result = file_manager.read_file("test.json")
         assert '"key": "value"' in result
 
 
 def test_read_file_exception(file_manager):
-    with patch("os.path.exists", return_value=True), \
-            patch("builtins.open", side_effect=Exception("Read error")):
+    with patch("os.path.exists", return_value=True), patch(
+        "builtins.open", side_effect=Exception("Read error")
+    ):
         with pytest.raises(AppException) as excinfo:
             file_manager.read_file("test.txt")
         assert "Failed to read file" in str(excinfo.value)
 
 
 def test_save_file_bytes(file_manager):
-    with patch("pathlib.Path.mkdir"), \
-            patch("builtins.open", mock_open()) as mock_file:
+    with patch("pathlib.Path.mkdir"), patch("builtins.open", mock_open()) as mock_file:
         path = file_manager.save_file(b"content", "/tmp", "test.txt")
         mock_file.assert_called_with("/tmp/test.txt", "wb")
         mock_file().write.assert_called_with(b"content")
@@ -67,8 +69,7 @@ def test_save_file_obj_with_name(file_manager):
     mock_obj.name = "test.txt"
     mock_obj.read.return_value = b"content"
 
-    with patch("pathlib.Path.mkdir"), \
-            patch("builtins.open", mock_open()) as mock_file:
+    with patch("pathlib.Path.mkdir"), patch("builtins.open", mock_open()) as mock_file:
         file_manager.save_file(mock_obj, "/tmp")
         mock_file().write.assert_called_with(b"content")
 

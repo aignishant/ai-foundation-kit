@@ -4,9 +4,9 @@ import clean_up
 
 
 def test_clean_artifacts():
-    with patch("os.path.exists", side_effect=[True, False, False]), \
-            patch("shutil.rmtree") as mock_rmtree, \
-            patch("os.walk", return_value=[(".", ["__pycache__"], [])]):
+    with patch("os.path.exists", side_effect=[True, False, False]), patch(
+        "shutil.rmtree"
+    ) as mock_rmtree, patch("os.walk", return_value=[(".", ["__pycache__"], [])]):
 
         clean_up.clean_artifacts()
 
@@ -45,8 +45,9 @@ def test_remove_comments_from_file():
 
 
 def test_process_files():
-    with patch("os.walk", return_value=[(".", [], ["test.py"])]), \
-            patch("clean_up.remove_comments_from_file") as mock_remove:
+    with patch("os.walk", return_value=[(".", [], ["test.py"])]), patch(
+        "clean_up.remove_comments_from_file"
+    ) as mock_remove:
 
         clean_up.process_files()
 

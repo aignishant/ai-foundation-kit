@@ -6,13 +6,12 @@ from AIFoundationKit.base.exception.custom_exception import (
     PermissionDeniedException,
     DatabaseException,
     ConfigException,
-    ModelException
+    ModelException,
 )
 
 
 def test_app_exception_to_dict():
-    exc = AppException("Error message", code="TEST_CODE",
-                       details={"key": "val"})
+    exc = AppException("Error message", code="TEST_CODE", details={"key": "val"})
     data = exc.to_dict()
     assert data["error"]["code"] == "TEST_CODE"
     assert data["error"]["message"] == "Error message"

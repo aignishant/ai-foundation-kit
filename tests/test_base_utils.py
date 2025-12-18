@@ -6,8 +6,9 @@ from AIFoundationKit.base.exception.custom_exception import ConfigException
 
 def test_load_config_success():
     yaml_content = "key: value"
-    with patch("os.path.exists", return_value=True), \
-            patch("builtins.open", mock_open(read_data=yaml_content)):
+    with patch("os.path.exists", return_value=True), patch(
+        "builtins.open", mock_open(read_data=yaml_content)
+    ):
         config = load_config("config.yaml")
         assert config == {"key": "value"}
 
@@ -20,8 +21,9 @@ def test_load_config_not_found():
 
 
 def test_load_config_invalid_yaml():
-    with patch("os.path.exists", return_value=True), \
-            patch("builtins.open", mock_open(read_data=": invalid yaml")):
+    with patch("os.path.exists", return_value=True), patch(
+        "builtins.open", mock_open(read_data=": invalid yaml")
+    ):
         with pytest.raises(ConfigException) as excinfo:
             load_config("config.yaml")
         assert "Error parsing YAML file" in str(excinfo.value)

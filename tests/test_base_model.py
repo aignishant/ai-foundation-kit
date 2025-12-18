@@ -15,7 +15,8 @@ def test_api_key_manager_init_env(monkeypatch):
 
 def test_api_key_manager_init_json(monkeypatch):
     monkeypatch.setenv(
-        "API_KEYS", '{"GROQ_API_KEY": "groq_json", "GOOGLE_API_KEY": "google_json"}')
+        "API_KEYS", '{"GROQ_API_KEY": "groq_json", "GOOGLE_API_KEY": "google_json"}'
+    )
     mgr = ApiKeyManager(check_keys=True)
     assert mgr.get("GROQ_API_KEY") == "groq_json"
     assert mgr.get("GOOGLE_API_KEY") == "google_json"
