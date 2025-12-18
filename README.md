@@ -106,6 +106,7 @@ except Exception as e:
     raise AppException(f"Process failed: {str(e)}") from e
 ```
 
+
 ---
 
 ## 🔮 Futuristic Example: The Agentic Workflow
