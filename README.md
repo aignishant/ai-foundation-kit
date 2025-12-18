@@ -146,6 +146,7 @@ async def run_autonomous_analyst(file_path: str):
 
 | Version | Changes |
 | :--- | :--- |
+| **v0.1.6** | • **Update**: Maintenance release.<br>• **Core**: Same stable features as v0.1.1. |
 | **v0.1.4** | • **Update**: Maintenance release.<br>• **Core**: Same stable features as v0.1.1. |
 | **v0.1.3** | • **Update**: Bumped version due to PyPI conflict.<br>• **Core**: Same stable features as v0.1.1. |
 | **v0.1.1** | • **Update**: Config/Readme update (Stable).<br>• **Core**: Includes `base` (File/Key Utils), `rag` (Model Loading), logging, exceptions. |
