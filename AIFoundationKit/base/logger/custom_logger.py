@@ -77,10 +77,10 @@ def get_logger(name: str = "app") -> logging.Logger:
     The log directory and level can be overridden via environment variables:
     LOG_DIR (default: "logs") and LOG_LEVEL (default: "INFO").
     """
-    logger = logging.getLogger(name)
-    if logger.handlers:
-        return logger
-    logger.setLevel(os.getenv("LOG_LEVEL", "INFO").upper())
+    log_obj = logging.getLogger(name)
+    if log_obj.handlers:
+        return log_obj
+    log_obj.setLevel(os.getenv("LOG_LEVEL", "INFO").upper())
     log_dir = os.getenv("LOG_DIR", "logs")
     os.makedirs(log_dir, exist_ok=True)
     # Generate a unique log filename with timestamp
@@ -91,11 +91,11 @@ def get_logger(name: str = "app") -> logging.Logger:
     # Use FileHandler to create a new file for each run/process
     file_handler = logging.FileHandler(log_path)
     file_handler.setFormatter(JsonFormatter())
-    logger.addHandler(file_handler)
+    log_obj.addHandler(file_handler)
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(ColorFormatter("%(levelname)s: %(message)s"))
-    logger.addHandler(console_handler)
-    return logger
+    log_obj.addHandler(console_handler)
+    return log_obj
 
 
 # Export a module‑level logger for convenient imports

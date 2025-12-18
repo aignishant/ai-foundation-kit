@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 
 
-class GenericPrompts:
+class GenericPrompts:  # pylint: disable=too-few-public-methods
     """
     Collection of generic, reusable prompt templates for various standard tasks.
     """

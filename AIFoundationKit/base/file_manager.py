@@ -6,10 +6,11 @@ from abc import ABC
 
 import fitz  # PyMuPDF
 import pandas as pd
-from AIFoundationKit.base.exception.custom_exception import AppException
-from AIFoundationKit.base.logger.custom_logger import logger as log
 from bs4 import BeautifulSoup
 from docx import Document
+
+from AIFoundationKit.base.exception.custom_exception import AppException
+from AIFoundationKit.base.logger.custom_logger import logger as log
 
 
 class BaseFileManager(ABC):
@@ -79,7 +80,8 @@ class BaseFileManager(ABC):
 
         except Exception as e:
             log.error("Error reading file %s: %s", file_path, e)
-            raise AppException(f"Failed to read file {file_path}: {str(e)}") from e
+            raise AppException(
+                f"Failed to read file {file_path}: {str(e)}") from e
 
     def save_file(
         self, file_obj: Union[BinaryIO, bytes], save_dir: str, file_name: str = None
@@ -129,7 +131,8 @@ class BaseFileManager(ABC):
                         content = file_obj.read()
                         f.write(content)
                     else:
-                        raise AppException("Provided file object is not readable.")
+                        raise AppException(
+                            "Provided file object is not readable.")
 
             log.info("File saved successfully at %s", save_path)
             return str(Path(save_path).resolve())

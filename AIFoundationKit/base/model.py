@@ -3,9 +3,10 @@ import os
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 
+from dotenv import load_dotenv
+
 from AIFoundationKit.base.exception.custom_exception import ModelException
 from AIFoundationKit.base.logger.custom_logger import logger as log
-from dotenv import load_dotenv
 
 # Load dotenv if not production
 if os.getenv("ENV", "local").lower() != "production":
@@ -30,7 +31,7 @@ class ApiKeyManager:
                     self.api_keys = parsed
                     log.info("Loaded API_KEYS from ECS secret structure")
             except Exception as e:
-                log.warning(f"Failed to parse API_KEYS as JSON: {e}")
+                log.warning("Failed to parse API_KEYS as JSON: %s", e)
 
         for key in self.REQUIRED_KEYS:
             if not self.api_keys.get(key):
@@ -51,7 +52,7 @@ class ApiKeyManager:
         keys_to_check = required_keys or self.REQUIRED_KEYS
         missing = [k for k in keys_to_check if not self.api_keys.get(k)]
         if missing:
-            log.error(f"Missing required API keys: {missing}")
+            log.error("Missing required API keys: %s", missing)
             raise ModelException(f"Missing API keys: {missing}")
 
     def get(self, key: str) -> str:
@@ -74,7 +75,6 @@ class BaseProvider(ABC):
         """
         Load and return the LLM object.
         """
-        pass
 
     @abstractmethod
     def load_embedding(
@@ -83,4 +83,3 @@ class BaseProvider(ABC):
         """
         Load and return the Embedding object.
         """
-        pass
