@@ -29,7 +29,15 @@ if [ "$?" -ne 0 ]; then
 fi
 
 # Push to the current branch's upstream
-git push
+if [ -f .env ]; then
+  source .env
+fi
+# Use token for authentication if GIT_TOKEN is set
+if [ -n "$GIT_TOKEN" ]; then
+  git push "https://${GIT_TOKEN}@github.com/aignishant/ai-foundation-kit.git"
+else
+  git push
+fi
 if [ "$?" -ne 0 ]; then
   echo "Push failed."
   exit 1
