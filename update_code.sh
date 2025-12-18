@@ -34,8 +34,8 @@ fi
 
 # 2. Commit changes
 echo "📦 Committing changes..."
-git add setup.py
-git commit -m "Bump version to v$NEW_VERSION"
+git add .
+git commit -m "chore: Rename `push_code.sh` to `commit_and_push.sh` and update `.gitignore`. to v$NEW_VERSION"
 
 # 3. Push Code Only
 echo "⬆️  Pushing code to main..."
