@@ -1,6 +1,6 @@
+import clean_up
 import pytest
 from unittest.mock import patch, MagicMock, call, mock_open
-import clean_up
 
 
 def test_clean_artifacts():
