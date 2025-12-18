@@ -1,3 +1,3 @@
 [BASIC]
 # Regular expression matching correct module names.
-module-rgx=([a-z_][a-z0-9_]{2,30}|AIFoundationKit)$
+module-rgx=([a-z_][a-z0-9_]{1,30}|AIFoundationKit)$
