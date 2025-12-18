@@ -28,13 +28,16 @@ if [ "$?" -ne 0 ]; then
   exit 1
 fi
 
-# Push to the current branch's upstream
-if [ -f .env ]; then
-  # source .env  # removed to avoid sh error; token should be set in environment
+# Pull latest changes to avoid divergence
+git pull --rebase
+if [ "$?" -ne 0 ]; then
+  echo "Pull/rebase failed. Resolve conflicts and retry."
+  exit 1
 fi
-# Use token for authentication if GIT_TOKEN is set
-if [ -n "$GIT_TOKEN" ]; then
-  git push "https://${GIT_TOKEN}@github.com/aignishant/ai-foundation-kit.git"
+
+# Push to the current branch's upstream using token if provided
+if [ -n "$GITHUB_TOKEN" ]; then
+  git push "https://${GITHUB_TOKEN}@github.com/aignishant/ai-foundation-kit.git"
 else
   git push
 fi
