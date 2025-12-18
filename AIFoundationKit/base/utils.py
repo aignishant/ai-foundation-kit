@@ -24,12 +24,12 @@ def load_config(config_path: str) -> Dict[str, Any]:
     if not os.path.exists(config_path):
         raise ConfigException(f"Config file not found: {config_path}")
 
-    with open(config_path, "r") as file:
+    with open(config_path, "r", encoding="utf-8") as file:
         try:
             config = yaml.safe_load(file)
             return config
         except yaml.YAMLError as e:
-            raise ConfigException(f"Error parsing YAML file: {e}")
+            raise ConfigException(f"Error parsing YAML file: {e}") from e
 
 
 def generate_session_id() -> str:

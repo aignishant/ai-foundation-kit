@@ -30,7 +30,7 @@ class ApiKeyManager:
                 if isinstance(parsed, dict):
                     self.api_keys = parsed
                     log.info("Loaded API_KEYS from ECS secret structure")
-            except Exception as e:
+            except json.JSONDecodeError as e:
                 log.warning("Failed to parse API_KEYS as JSON: %s", e)
 
         for key in self.REQUIRED_KEYS:
