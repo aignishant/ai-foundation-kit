@@ -1,6 +1,4 @@
-import json
 import os
-from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 
 from dotenv import load_dotenv
@@ -93,7 +91,7 @@ class ModelLoader:
             self.config = config_dict
         elif config_path:
             self.config = load_config(config_path)
-            log.info(f"YAML config loaded from {config_path}")
+            log.info("YAML config loaded from %s", config_path)
         else:
             self.config = {}
 
@@ -109,7 +107,7 @@ class ModelLoader:
         Register a new provider.
         """
         self._providers[name.lower()] = provider
-        log.info(f"Registered provider: {name}")
+        log.info("Registered provider: %s", name)
 
     def _get_provider(self, provider_name: str) -> BaseProvider:
         provider = self._providers.get(provider_name.lower())
@@ -143,7 +141,7 @@ Available: {list(self._providers.keys())}"
         Load LLM from the specified or configured provider.
         """
         provider_name = self._resolve_provider_name(provider, "llm")
-        log.info(f"Loading LLM using provider: {provider_name}")
+        log.info("Loading LLM using provider: %s", provider_name)
 
         prov_instance = self._get_provider(provider_name)
 
@@ -153,8 +151,8 @@ Available: {list(self._providers.keys())}"
         try:
             return prov_instance.load_llm(self.api_key_mgr, provider_config, **kwargs)
         except Exception as e:
-            log.error(f"Failed to load LLM with {provider_name}: {e}")
-            raise ModelException(f"Failed to load LLM ({provider_name}): {e}")
+            log.error("Failed to load LLM with %s: %s", provider_name, e)
+            raise ModelException(f"Failed to load LLM ({provider_name}): {e}") from e
 
     def load_embeddings(self, provider: Optional[str] = None, **kwargs):
         """
@@ -174,7 +172,7 @@ Available: {list(self._providers.keys())}"
                 # Let's support an optional 'provider' key there too
                 provider = self.config["embedding_model"].get("provider", "google")
 
-        log.info(f"Loading Embeddings using provider: {provider}")
+        log.info("Loading Embeddings using provider: %s", provider)
         prov_instance = self._get_provider(provider)
 
         # Get provider specific config (generalized)
@@ -184,5 +182,5 @@ Available: {list(self._providers.keys())}"
         try:
             return prov_instance.load_embedding(self.api_key_mgr, emb_config, **kwargs)
         except Exception as e:
-            log.error(f"Failed to load Embeddings with {provider}: {e}")
-            raise ModelException(f"Failed to load Embeddings ({provider}): {e}")
+            log.error("Failed to load Embeddings with %s: %s", provider, e)
+            raise ModelException(f"Failed to load Embeddings ({provider}): {e}") from e

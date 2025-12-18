@@ -8,7 +8,8 @@ class GenericPrompts:
 
     UNIVERSAL_JSON_EXTRACTION = ChatPromptTemplate.from_template(
         """
-You are a precise data extractor. Your task is to extract structured data from the provided text according to the given schema.
+You are a precise data extractor. Your task is to extract structured data
+from the provided text according to the given schema.
 
 Rules:
 1.  **Strict JSON Output**: Output strictly valid JSON. No markdown, no comments.
@@ -56,7 +57,8 @@ Instructions:
 
     UNIVERSAL_QUERY_REWRITE = ChatPromptTemplate.from_template(
         """
-Rewrite the following user query to be standalone and self-contained, resolving any pronouns or references using the chat history.
+Rewrite the following user query to be standalone and self-contained, resolving
+any pronouns or references using the chat history.
 
 Chat History:
 {chat_history}

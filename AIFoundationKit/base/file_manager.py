@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 from typing import BinaryIO, Union
-from abc import ABC, abstractmethod
+from abc import ABC
 
 import fitz  # PyMuPDF
 import pandas as pd
@@ -34,7 +34,7 @@ class BaseFileManager(ABC):
             FileNotFoundError: If the file does not exist.
         """
         if not os.path.exists(file_path):
-            log.error(f"File not found: {file_path}")
+            log.error("File not found: %s", file_path)
             raise FileNotFoundError(f"File not found: {file_path}")
 
         file_ext = Path(file_path).suffix.lower()
@@ -54,8 +54,9 @@ class BaseFileManager(ABC):
 
             elif file_ext in [".html", ".xml"]:
                 with open(file_path, "r", encoding="utf-8") as f:
-                    soup = BeautifulSoup(f, "lxml" if file_ext ==
-                                         ".xml" else "html.parser")
+                    soup = BeautifulSoup(
+                        f, "lxml" if file_ext == ".xml" else "html.parser"
+                    )
                     text_content = soup.get_text(separator=" ", strip=True)
 
             elif file_ext == ".json":
@@ -77,7 +78,7 @@ class BaseFileManager(ABC):
             return text_content.strip()
 
         except Exception as e:
-            log.error(f"Error reading file {file_path}: {e}")
+            log.error("Error reading file %s: %s", file_path, e)
             raise AppException(f"Failed to read file {file_path}: {str(e)}") from e
 
     def save_file(
@@ -90,7 +91,7 @@ class BaseFileManager(ABC):
             file_obj (Union[BinaryIO, bytes]): The file object (like from Streamlit/Flask) or bytes.
             save_dir (str): The directory to save the file in.
             file_name (str, optional): The name of the file. Required if file_obj is bytes.
-                                       If file_obj has a 'name' attribute, it will be used if file_name is None.
+                                       If file_obj has a 'name' attribute, it will be used if None.
 
         Returns:
             str: The absolute path of the saved file.
@@ -130,9 +131,9 @@ class BaseFileManager(ABC):
                     else:
                         raise AppException("Provided file object is not readable.")
 
-            log.info(f"File saved successfully at {save_path}")
+            log.info("File saved successfully at %s", save_path)
             return str(Path(save_path).resolve())
 
         except Exception as e:
-            log.error(f"Error saving file: {e}")
+            log.error("Error saving file: %s", e)
             raise AppException(f"Failed to save file: {str(e)}") from e

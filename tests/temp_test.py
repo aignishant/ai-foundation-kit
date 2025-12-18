@@ -1,4 +1,3 @@
-
 import unittest
 import importlib
 
@@ -14,9 +13,9 @@ class TestPackage(unittest.TestCase):
     def test_import_submodules(self):
         """Test importing submodules to ensure structure is intact."""
         submodules = [
-            'AIFoundationKit.base',
-            'AIFoundationKit.rag',
-            'AIFoundationKit.genai'
+            "AIFoundationKit.base",
+            "AIFoundationKit.rag",
+            "AIFoundationKit.genai",
         ]
         for module in submodules:
             try:
@@ -25,5 +24,5 @@ class TestPackage(unittest.TestCase):
                 self.fail(f"Failed to import submodule {module}: {e}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
