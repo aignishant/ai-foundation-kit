@@ -40,9 +40,9 @@ jobs:
         run: |
           pylint AIFoundationKit --disable=C0114,C0115,C0116
 
-      - name: Run temporary tests
+      - name: Run tests
         run: |
-          python tests/temp_test.py
+          pytest tests/
 
   publish:
     name: Publish to PyPI
